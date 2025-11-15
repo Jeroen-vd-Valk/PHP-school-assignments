@@ -11,15 +11,17 @@
  * Which $_SERVER variable can we use to determine the request method?
  * 
  * TODO: 
- *  In the if statement, use the appropriate $_SERVER variable to check if the request method is POST.
- *  If it is, process the form submission.
- *  If it is not, display the contact form.
- *  Identify where the post data is set and displayed.
+ *  In the if statement, use the appropriate $_SERVER variable to check if the request method is POST. DONE
+ *  If it is, process the form submission. DONE
+ *  If it is not, display the contact form. DONE
+ *  Identify where the post data is set and displayed. done?
  *  Use `var_dump()` and `die()` to inspect contents of $_POST.
  *  Note: Use of `htmlspecialchars`. Research why this is used here when displaying user supplied data in the browser.
+ * 
+ * DONE
  */
 
-if (FALSE) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect and sanitize input
     $name = htmlspecialchars(trim($_POST['name'] ?? ''));
     $email = htmlspecialchars(trim($_POST['email'] ?? ''));
@@ -59,3 +61,4 @@ if (FALSE) {
     </form>
 <?php
 }
+?>

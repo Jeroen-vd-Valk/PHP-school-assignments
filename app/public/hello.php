@@ -8,16 +8,16 @@
  * For example, if a user visits the following URL:
  * 
  * http://localhost/hello.php?name=Alice&age=23
- * 
+ *  
  * Two key-value pairs are sent to the server: one for `name` with the value `Alice`, and another for `age` with the value `23`.
  * 
  * Note: PHP has a `var_dump` function that can be used to inspect variables.
  * 
  * TODO:
- *  Visit the URL above in the browser.
- *  Use `var_dump($_GET);` to see the contents of the `$_GET` variable. 
- *  Use `die();` after the `var_dump` to stop further execution of the script.
- *  Right-click in the browser and select "View Page Source" to see the output of `var_dump` clearly.
+ *  Visit the URL above in the browser.     DONE
+ *  Use `var_dump($_GET);` to see the contents of the `$_GET` variable. DONE 
+ *  Use `die();` after the `var_dump` to stop further execution of the script. DONE
+ *  Right-click in the browser and select "View Page Source" to see the output of `var_dump` clearly. DONE
  */
 
 /** 
@@ -28,14 +28,23 @@
  * 
  */
 
-// Note the `echo` outputs text to the HTTP response body directly (you will see this in the browser).
-echo 'Hello world!';
-
 // Note: PHP is a templating language, so you can mix HTML and PHP code in the same file.
 // To start writing HTML, just close the PHP tag like this:
 
 // View source code in the browser to see the HTML output. Anything missing? 😱😱😱
 
+$name = 'Guest';
+$age = 'uknown';
+
+if(!empty($_GET['name'])){
+    $name = $_GET['name'];
+}
+
+if(!empty($_GET['age'])){
+    $age = $_GET['age'];
+}
+
+echo "Hello $name, your age is $age";
 ?>
 
 <div>

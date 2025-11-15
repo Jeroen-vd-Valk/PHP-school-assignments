@@ -44,6 +44,13 @@ switch ($routeInfo[0]) {
         break;
     // Handle found routes
     case FastRoute\Dispatcher::FOUND:
+        $controller = $routeInfo[1][0];
+        $extra = $routeInfo[1][1];
+        $vars = $routeInfo[2];        
+        new $controller() ->$extra($vars);
+        break;
+}
+
         /**
          * $routeInfo contains the data about the matched route.
          * 
@@ -55,7 +62,7 @@ switch ($routeInfo[0]) {
          * Hint: in PHP we can use a string to call a class method dynamically, like this: `$instance->$methodName($args);`
          */
 
-        // TODO: invoke the controller and method using the data in $routeInfo[1]
+        // it invokes the controller and method using the data in $routeInfo[1]
 
         /**
          * $route[2] contains any dynamic parameters parsed from the URL.
@@ -64,9 +71,5 @@ switch ($routeInfo[0]) {
          * and the URL is `/hello/dan-the-man`, then `$routeInfo[2][name]` will be `dan-the-man`.
          */
 
-        // TODO: pass the dynamic route data to the controller method
+        // it passes the dynamic route data to the controller method
         // When done, visiting `http://localhost/hello/dan-the-man` should output "Hi, dan-the-man!"
-        throw new Exception('Not implemented yet');
-
-        break;
-}

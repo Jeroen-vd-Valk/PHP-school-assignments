@@ -9,6 +9,6 @@ class HelloController
         // normally we don't want to echo from a controller method directly
         // but rather load a view template
         $name = $vars['name'] ?? 'World';
-        echo "Hi, {$name}!";
+        echo "Hello, {$name}!";
     }
 }
