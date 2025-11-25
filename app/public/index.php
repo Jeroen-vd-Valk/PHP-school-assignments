@@ -25,6 +25,8 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/guestbook/management', ['App\Controllers\GuestbookController', 'getAllManagement']);
     $r->addRoute('GET', '/guestbook/edit/{id}', ['App\Controllers\GuestbookController', 'editEntry']);
     $r->addRoute('POST', '/guestbook/delete', ['App\Controllers\GuestbookController', 'deleteEntry']);
+    $r->addRoute('GET', '/login', ['App\Controllers\LoginController', 'loginScreen']);
+    $r->addRoute('POST', '/login', ['App\Controllers\LoginController', 'login']);
 });
 
 

@@ -14,8 +14,17 @@
 <body class="d-flex flex-column h-100">
     <div class="container-lg py-4 flex-shrink-0">
         <?php if (!empty($posts)) { ?>
-            <h1> Guestbook Entries</h1>
-            <a href="/guestbook/management" class="btn btn-sm btn-primary mb-3">Manage posts</a>
+            <div class="d-flex justify-content-between align-items-center">
+                <h1> Guestbook Entries</h1>
+                <a href="/login" class="btn btn-sm btn-primary">To login</a>
+            </div>
+            <?php if (!empty($_SESSION["user"])) { ?>
+                <a href="/guestbook/management" class="btn btn-sm btn-primary mb-3">Manage posts</a>
+            <?php }
+            if (!empty($_SESSION['error'])) {
+                echo $_SESSION['error'] . "<br/>";
+                unset($_SESSION["error"]);
+            } ?>
             <?php foreach ($posts as $post) { ?>
                 <div class="card shadow-sm border-0 rounded-3 mb-4">
                     <ul class="list-group">

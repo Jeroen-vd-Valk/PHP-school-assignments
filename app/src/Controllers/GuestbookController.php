@@ -2,10 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Config;
 use App\Services\GuestbookService;
 use App\Services\Interfaces\IGuestbookService;
-use App\Models\Post;
 
 class GuestbookController
 {
@@ -20,6 +18,8 @@ class GuestbookController
     public function getAll()
     {
         try {
+            if (session_status() !== 2) session_start();
+
             $posts = $this->service->getAll();
 
             require __DIR__ . '/../Views/guestbook.php';
@@ -40,7 +40,6 @@ class GuestbookController
             }
             $post = $this->service->getById($id);
 
-            var_dump($post);
 
             require __DIR__ . '/../Views/guestbookDetails.php';
         } catch (\InvalidArgumentException $e) {
@@ -55,9 +54,17 @@ class GuestbookController
     public function getAllManagement()
     {
         try {
-            $posts = $this->service->getAll();
+            if (session_status() !== 2) session_start();
 
-            require __DIR__ . '/../Views/guestbookManagement.php';
+            if (!empty($_SESSION['user'])) {
+
+                $posts = $this->service->getAll();
+
+                require __DIR__ . '/../Views/guestbookManagement.php';
+            } else {
+                $_SESSION['error'] = 'You do not have management access, please log in first';
+                $this->getAll();
+            }
         } catch (\PDOException $e) {
             die('Database connection failed: ' . $e->getMessage());
         } catch (\Exception $e) {
@@ -82,14 +89,18 @@ class GuestbookController
     public function editEntry($vars = [])
     {
         try {
-            if (is_numeric($vars['id'])) {
-                $id = intval($vars['id']);
+            if (session_status() !== 2) session_start();
+
+            if (!empty($_SESSION['user'])) {
+                if (is_numeric($vars['id'])) {
+                    $id = intval($vars['id']);
+                } else {
+                    throw new \InvalidArgumentException('Invalid ID. A numeric value is required to edit a ticket');
+                }
             } else {
-                throw new \InvalidArgumentException('Invalid ID. A numeric value is required to edit a ticket');
+                $_SESSION['error'] = 'You do not have management access, please log in first';
+                $this->getAll();
             }
-            var_dump($id);
-
-
 
             echo 'This works';
         } catch (\InvalidArgumentException $e) {
@@ -104,17 +115,22 @@ class GuestbookController
     public function deleteEntry()
     {
         try {
+            if (session_status() !== 2) session_start();
 
-            if (is_numeric($_POST['id'])) {
-                $id = intval($_POST['id']);
+            if (!empty($_SESSION['user'])) {
+                if (is_numeric($_POST['id'])) {
+                    $id = intval($_POST['id']);
+                } else {
+                    throw new \InvalidArgumentException('Invalid ID. A numeric value is required to edit a ticket');
+                }
+
+                $this->service->deleteEntry($id);
+
+                $this->getAllManagement();
             } else {
-                throw new \InvalidArgumentException('Invalid ID. A numeric value is required to edit a ticket');
+                $_SESSION['error'] = 'You do not have management access, please log in first';
+                $this->getAll();
             }
-
-            $this->service->deleteEntry($id);
-
-
-            $this->getAllManagement();
         } catch (\PDOException $e) {
             die('Database connection failed: ' . $e->getMessage());
         } catch (\Exception $e) {

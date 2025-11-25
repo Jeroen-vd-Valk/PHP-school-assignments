@@ -2,7 +2,6 @@
 
 namespace App\Services\Interfaces;
 
-use App\Models\Post;
 
 interface IGuestbookService
 {

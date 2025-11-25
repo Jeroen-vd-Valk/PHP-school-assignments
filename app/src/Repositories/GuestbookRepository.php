@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Post;
+
 use App\Repositories\Interfaces\IGuestbookRepository;
 use App\Config;
 use \PDO;
