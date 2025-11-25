@@ -22,8 +22,18 @@ class GuestbookService implements IGuestbookService
         return $this->repository->getAll();
     }
 
+    public function getById(int $id): array
+    {
+        return $this->repository->getById($id);
+    }
+
     public function createEntry(): void
     {
         $this->repository->createEntry();
+    }
+
+    public function deleteEntry(int $id): void
+    {
+        $this->repository->deleteEntry($id);
     }
 }

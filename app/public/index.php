@@ -21,7 +21,10 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('POST', '/upload', ['App\Controllers\UploadController', 'upload']);
     $r->addRoute('GET', '/guestbook', ['App\Controllers\GuestbookController', 'getAll']);
     $r->addRoute('POST', '/guestbook', ['App\Controllers\GuestbookController', 'createEntry']);
+    $r->addRoute('GET', '/guestbook/details/{id}', ['App\Controllers\GuestbookController', 'getDetails']);
     $r->addRoute('GET', '/guestbook/management', ['App\Controllers\GuestbookController', 'getAllManagement']);
+    $r->addRoute('GET', '/guestbook/edit/{id}', ['App\Controllers\GuestbookController', 'editEntry']);
+    $r->addRoute('POST', '/guestbook/delete', ['App\Controllers\GuestbookController', 'deleteEntry']);
 });
 
 

@@ -20,7 +20,18 @@
                 <div class="card shadow-sm border-0 rounded-3 mb-4">
                     <ul class="list-group">
                         <li class="list-group-item card-header">
-                            <h4> <?= $post['name']; ?></h4>
+                            <div class="d-flex flex-row align-items-center justify-content-between">
+                                <h4> <?= $post['name']; ?></h4>
+
+                                <div class="d-flex flex-row">
+                                    <a href="/guestbook/edit/<?= $post['id'] ?>" class="btn btn-sm btn-primary mx-1">Edit item</a>
+
+                                    <form action="/guestbook/delete" method="post">
+                                        <button type="submit" name="id" value="<?= $post['id'] ?>" class="btn btn-sm btn-danger mx-1">Remove item</a>
+                                    </form>
+                                </div>
+
+                            </div>
                         </li>
                         <li class="list-group-item border-0">
                             <?= nl2br($post['message']); ?>
@@ -35,32 +46,6 @@
         <?php } else { ?>
             <p> No entries found</p>
         <?php } ?>
-
-        <div class="card shadow-sm border-0 rounded-3 mb-4">
-            <form action="/guestbook" method="post">
-                <h3 class="card-header">Add a message</h3>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col m-3">
-                            <label class="form-label fw-bold" for="Name">Name</label>
-                            <input class="form-control" type="text" id="name" name="name" placeholder="Enter name here" required>
-                        </div>
-
-                        <div class="col m-3">
-                            <label class="form-label fw-bold" for="email">email (Optional)</label>
-                            <input class="form-control" type="email" id="emial" name="email" placeholder="Enter email here">
-                        </div>
-                    </div>
-
-                    <div class="m-3">
-                        <label class="form-label fw-bold" for="Message">Message</label>
-                        <textarea class="form-control" id="message" name="message" rows="4" placeholder="Enter message here" required></textarea>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary m-3">Submit</button>
-                </div>
-            </form>
-        </div>
     </div>
 </body>
 

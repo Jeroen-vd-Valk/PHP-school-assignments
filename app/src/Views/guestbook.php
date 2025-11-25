@@ -20,7 +20,11 @@
                 <div class="card shadow-sm border-0 rounded-3 mb-4">
                     <ul class="list-group">
                         <li class="list-group-item card-header">
-                            <h4> <?= $post['name']; ?></h4>
+                            <div class="d-flex flex-row align-items-center justify-content-between">
+                                <h4> <?= $post['name']; ?></h4>
+
+                                <a href="/guestbook/details/<?= $post['id'] ?>" class="btn btn-sm btn-primary mx-1">View details</a>
+                            </div>
                         </li>
                         <li class="list-group-item border-0">
                             <?= nl2br($post['message']); ?>

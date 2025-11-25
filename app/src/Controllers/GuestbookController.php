@@ -25,6 +25,30 @@ class GuestbookController
             require __DIR__ . '/../Views/guestbook.php';
         } catch (\PDOException $e) {
             die('Database connection failed: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            die('Unknown exception occurred: ' . $e->getMessage());
+        }
+    }
+
+    public function getDetails($vars = [])
+    {
+        try {
+            if (is_numeric($vars['id'])) {
+                $id = intval($vars['id']);
+            } else {
+                throw new \InvalidArgumentException('Invalid ID. A numeric value is required to edit a ticket');
+            }
+            $post = $this->service->getById($id);
+
+            var_dump($post);
+
+            require __DIR__ . '/../Views/guestbookDetails.php';
+        } catch (\InvalidArgumentException $e) {
+            die('' . $e->getMessage());
+        } catch (\PDOException $e) {
+            die('Database connection failed: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            die('Unknown exception occurred: ' . $e->getMessage());
         }
     }
 
@@ -36,6 +60,8 @@ class GuestbookController
             require __DIR__ . '/../Views/guestbookManagement.php';
         } catch (\PDOException $e) {
             die('Database connection failed: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            die('Unknown exception occurred: ' . $e->getMessage());
         }
     }
 
@@ -47,6 +73,52 @@ class GuestbookController
             $this->GetAll();
         } catch (\PDOException $e) {
             die('Database connection failed: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            die('Unknown exception occurred: ' . $e->getMessage());
+        }
+    }
+
+
+    public function editEntry($vars = [])
+    {
+        try {
+            if (is_numeric($vars['id'])) {
+                $id = intval($vars['id']);
+            } else {
+                throw new \InvalidArgumentException('Invalid ID. A numeric value is required to edit a ticket');
+            }
+            var_dump($id);
+
+
+
+            echo 'This works';
+        } catch (\InvalidArgumentException $e) {
+            die('' . $e->getMessage());
+        } catch (\PDOException $e) {
+            die('Database connection failed: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            die('Unknown exception occurred: ' . $e->getMessage());
+        }
+    }
+
+    public function deleteEntry()
+    {
+        try {
+
+            if (is_numeric($_POST['id'])) {
+                $id = intval($_POST['id']);
+            } else {
+                throw new \InvalidArgumentException('Invalid ID. A numeric value is required to edit a ticket');
+            }
+
+            $this->service->deleteEntry($id);
+
+
+            $this->getAllManagement();
+        } catch (\PDOException $e) {
+            die('Database connection failed: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            die('Unknown exception occurred: ' . $e->getMessage());
         }
     }
 }

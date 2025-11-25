@@ -38,6 +38,18 @@ class GuestbookRepository implements IGuestbookRepository
         return $posts;
     }
 
+    public function getById(int $id): array
+    {
+        $connection = $this->connectToDatabase();
+
+        $statement = $connection->prepare(
+            'SELECT id, posted_at, name, email, message FROM posts WHERE id=:id'
+        );
+        $statement->bindValue(':id', $id);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function createEntry(): void
     {
         $connection = $this->connectToDatabase();
@@ -53,6 +65,21 @@ class GuestbookRepository implements IGuestbookRepository
         $statement->bindParam(':name', $name);
         $statement->bindParam(':email', $email);
         $statement->bindParam(':message', $message);
+
+        $statement->execute();
+    }
+
+    public function updateEntry(int $id, string $email, string $message): void {}
+
+    public function deleteEntry(int $id): void
+    {
+        $connection = $this->connectToDatabase();
+
+        $statement = $connection->prepare(
+            query: 'DELETE FROM posts WHERE id=:id;'
+        );
+
+        $statement->bindParam(':id', $id);
 
         $statement->execute();
     }
