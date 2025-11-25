@@ -40,7 +40,7 @@ class UploadController
             }
         }
 
-        require_once (__DIR__ . "/../../public/file-overview.php");
+        require (__DIR__ . "/../../public/file-overview.php");
     }
 
 }
