@@ -15,7 +15,7 @@ class GuestbookRepository implements IGuestbookRepository
         $connectionString = 'mysql:host=' . Config::DB_SERVER_NAME . ';dbname=' . Config::DB_NAME . ';charset=utf8mb4';
 
         //Create a new PDO connection, ALSO DON'T DO THIS DIRECTLY IN A REPOSITORY, THIS IS ALSO BAD
-        $connection = new \PDO(
+        $connection = new PDO(
             $connectionString,
             Config::DB_USERNAME,
             Config::DB_PASSWORD

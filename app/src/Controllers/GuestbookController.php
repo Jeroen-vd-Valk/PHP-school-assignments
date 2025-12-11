@@ -11,6 +11,8 @@ class GuestbookController
 
     public function __construct()
     {
+        if (session_status() !== 2) session_start();
+
         $this->service = new GuestbookService();
     }
 
@@ -18,8 +20,6 @@ class GuestbookController
     public function getAll()
     {
         try {
-            if (session_status() !== 2) session_start();
-
             $posts = $this->service->getAll();
 
             require __DIR__ . '/../Views/guestbook.php';
@@ -54,8 +54,6 @@ class GuestbookController
     public function getAllManagement()
     {
         try {
-            if (session_status() !== 2) session_start();
-
             if (!empty($_SESSION['user'])) {
 
                 $posts = $this->service->getAll();
@@ -89,8 +87,6 @@ class GuestbookController
     public function editEntry($vars = [])
     {
         try {
-            if (session_status() !== 2) session_start();
-
             if (!empty($_SESSION['user'])) {
                 if (is_numeric($vars['id'])) {
                     $id = intval($vars['id']);
@@ -115,8 +111,6 @@ class GuestbookController
     public function deleteEntry()
     {
         try {
-            if (session_status() !== 2) session_start();
-
             if (!empty($_SESSION['user'])) {
                 if (is_numeric($_POST['id'])) {
                     $id = intval($_POST['id']);

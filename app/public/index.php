@@ -27,6 +27,13 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('POST', '/guestbook/delete', ['App\Controllers\GuestbookController', 'deleteEntry']);
     $r->addRoute('GET', '/login', ['App\Controllers\LoginController', 'loginScreen']);
     $r->addRoute('POST', '/login', ['App\Controllers\LoginController', 'login']);
+    $r->addRoute('GET', '/articles', ['App\Controllers\ArticleController', 'index']);
+    $r->addRoute('GET', '/articles/view/{id}', ['App\Controllers\ArticleController', 'articleDetails']);
+    $r->addRoute('GET', '/articles/add', ['App\Controllers\ArticleController', 'articleAddView']);
+    $r->addRoute('POST', '/articles', ['App\Controllers\ArticleController', 'articleAdd']);
+    $r->addRoute('GET', '/articles/update/{id}', ['App\Controllers\ArticleController', 'articleUpdateView']);
+    $r->addRoute('POST', '/articles/{id}', ['App\Controllers\ArticleController', 'articleUpdate']);
+    $r->addRoute('POST', '/articles/delete/{id}', ['App\Controllers\ArticleController', 'articleDelete']);
 });
 
 
