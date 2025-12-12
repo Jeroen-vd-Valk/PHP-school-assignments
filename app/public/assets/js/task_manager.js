@@ -9,6 +9,7 @@
 
 // A class representing a task
 class Task {
+
     constructor(id, description, completed = false) {
         this.id = id;
         this.description = description;
@@ -41,7 +42,7 @@ async function main() {
 
     let tasks;
     try {
-        tasks = await fetchTaskFromServer();  
+        tasks = await fetchTasksFromServer();  
     } catch (err) {
         console.error("Error fetching tasks:", err);
         return;
@@ -52,10 +53,11 @@ async function main() {
     tasks.forEach(task => {
         console.log(`- (${task.completed ? "X" : " "}) ${task.description}`);
     });
+    tasks[0].markDone();
 
     // Mark a task as done
     console.log("\nMarking task 2 as completed...");
-    const taskToComplete = tasks.find(t => t.id === "2");
+    const taskToComplete = tasks.find(t => t.id === 2);
 
     if (!taskToComplete) {
         console.error("Could not find task to complete!");
@@ -70,13 +72,21 @@ async function main() {
     });
 
     console.log("\nExtracting descriptions...");
-    const descriptions = tasks.map(task => task.descriptions); 
+    const descriptions = tasks.map(task => task.description);
 
     if(descriptions[0] === undefined) {
         console.error("Failed to extract task descriptions!");
+    } else {
+        tasks[2].markDone();
     }
 
     console.log(descriptions);
+
+    // Print updated tasks
+    console.log("\nUpdated Tasks:");
+    tasks.forEach(task => {
+        console.log(`- (${task.completed ? "X" : " "}) ${task.description}`);
+    });
 }
 
 main();

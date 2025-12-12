@@ -9,11 +9,11 @@
     <script>
         console.log("Hello from JS!");
     </script>
-    <!-- add script link here -->
+    <script src="/assets/js/task_manager.js"></script>
 </head>
 
 <body>
-    <h1>Broken JS Example</h1>
+    <h1>Fixed JS Example</h1>
 </body>
 
 </html>
