@@ -28,6 +28,8 @@ class ArticleRepository extends Repository implements IArticleRepository
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_CLASS, ArticleModel::class);
 
+
+
         return $statement->fetch();
     }
 
