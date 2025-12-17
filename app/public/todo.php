@@ -46,6 +46,11 @@
                             quos non minima enim.
                         </p>
                     </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-danger" onclick="removeItem();">
+                            Delete
+                        </button>
+                    </div>
                 </div>
             </div>
             <!-- placeholder card end -->
