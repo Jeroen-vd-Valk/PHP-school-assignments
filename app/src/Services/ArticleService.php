@@ -1,46 +1,44 @@
 <?php
 
+// NOTE: we are using a simplified filed based storage for demo purposes
+// For your assignment, you should use a database
+
 namespace App\Services;
 
-use App\Repositories\ArticleRepository;
-use App\Repositories\Interfaces\IArticleRepository;
-use App\Services\Interfaces\IArticleService;
-use App\Models\ArticleModel;
-use App\ViewModels\ArticleViewModel;
-use InvalidArgumentException;
-use mysqli_sql_exception;
+use App\Utils\JsonStore;
 
 class ArticleService implements IArticleService
 {
-    private IArticleRepository $articleRepository;
+    private JsonStore $store;
+    private const DATA_FILE = __DIR__ . '/../data/articles.json';
 
     public function __construct()
     {
-        $this->articleRepository = new ArticleRepository();
+        $this->store = new JsonStore(self::DATA_FILE);
     }
 
-    public function getAll(): array
+    public function getAllArticles(): array
     {
-        return $this->articleRepository->getAll();
+        return $this->store->getAll();
     }
 
-    public function getById(int $id): ?ArticleModel
+    public function getArticleById(int $id): ?array
     {
-        return $this->articleRepository->getById($id);
+        return $this->store->getById($id);
     }
 
-    public function createArticle(ArticleViewModel $article): void
+    public function createArticle(array $data): int
     {
-        $this->articleRepository->createArticle($article) ?: throw new mysqli_sql_exception('Something went wrong creating the article in the database, please try again.');
+        return $this->store->create($data);
     }
 
-    public function updateArticle(ArticleViewModel $article): void
+    public function updateArticle(int $id, array $data): bool
     {
-        $this->articleRepository->updateArticle($article) ?: throw new mysqli_sql_exception('Something went wrong updating the article in the database, please try again.');
+        return $this->store->update($id, $data);
     }
 
-    public function deleteArticle(int $id): void
+    public function deleteArticle(int $id): bool
     {
-        $this->articleRepository->deleteArticle($id) ?: throw new InvalidArgumentException('Article to be deleted could not be found, please try again.');
+        return $this->store->delete($id);
     }
 }

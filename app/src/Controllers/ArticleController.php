@@ -2,11 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Services\Interfaces\IArticleService;
+use App\Services\IArticleService;
 use App\Services\ArticleService;
-use App\ViewModels\ArticlesViewModel;
-use App\ViewModels\ArticleViewModel;
-use InvalidArgumentException;
 
 class ArticleController
 {
@@ -14,114 +11,34 @@ class ArticleController
 
     public function __construct()
     {
+        // mock service for doing article CRUD
         $this->articleService = new ArticleService();
     }
 
-    public function index()
+    public function index($vars = [])
     {
-        $articles = $this->articleService->getAll();
-
-        $vm = new ArticlesViewModel($articles);
-
-        require __DIR__ . '/../Views/articles/index.php';
+        // we are going to do everything via JS and an API so, we will simply load a view here
+        require __DIR__ . '/../Views/article/index.php';
     }
 
-    public function articleDetails(array $params)
+    public function apiGetAll()
     {
-        try {
-            if (is_numeric($params['id'])) {
-                $id = intval($params['id']);
-            } else {
-                throw new InvalidArgumentException('Invalid ID. A numeric value is required to see an article');
-            }
-            $article = $this->articleService->getById($id);
+        // use the article service to get all articles and return as JSON
+        // set the content type header
+        // return the data as JSON to the client
+        $articles = $this->articleService->getAllArticles();
 
-            require __DIR__ . '/../Views/articles/article_details.php';
-        } catch (InvalidArgumentException $e) {
-            die('' . $e->getMessage());
-        } catch (\PDOException $e) {
-            die('Database connection failed: ' . $e->getMessage());
-        } catch (\Exception $e) {
-            die('Unknown exception occurred: ' . $e->getMessage());
-        }
+        header('Content-Type: application/json');
+        echo json_encode($articles);
     }
 
-    public function articleAddView()
+    public function apiCreate()
     {
-        require __DIR__ . '/../Views/articles/article_add.php';
-    }
-
-    public function articleAdd($params)
-    {
-        try {
-
-            $articleToCreate = new ArticleViewModel($_POST);
-
-            $this->articleService->createArticle($articleToCreate);
-
-            $this->index();
-        } catch (\mysqli_sql_exception $msqle) {
-            error_log($msqle);
-        } catch (\PDOException $e) {
-            die('Database connection failed: ' . $e->getMessage());
-        } catch (\Exception $e) {
-            die('Unknown exception occurred: ' . $e->getMessage());
-        }
-    }
+        // get the $_POST data and decode into an associative array
+        $data = json_decode(file_get_contents('php://input'), true);
 
 
-    public function articleUpdateView(array $params)
-    {
-        if (is_numeric($params['id'])) {
-            $id = intval($params['id']);
-        } else {
-            throw new InvalidArgumentException('Invalid ID. A numeric value is required to see an article');
-        }
-        $article = $this->articleService->getById($id);
-
-        require __DIR__ . '/../Views/articles/article_update.php';
-    }
-
-    public function articleUpdate()
-    {
-        try {
-            $articleToCreate = new ArticleViewModel($_POST);
-
-            $this->articleService->updateArticle($articleToCreate);
-
-            $this->index();
-        } catch (\mysqli_sql_exception $msqle) {
-            error_log($msqle);
-        } catch (\PDOException $e) {
-            die('Database connection failed: ' . $e->getMessage());
-        } catch (\Exception $e) {
-            die('Unknown exception occurred: ' . $e->getMessage());
-        }
-    }
-
-    public function articleDelete($params)
-    {
-        try {
-            $id = null;
-
-            if (!empty($params['id'])) {
-                if (!is_numeric($params['id'])) {
-                    throw new InvalidArgumentException('Invalid ID. A numeric value is required to edit a ticket');
-                }
-                $id = intval($params['id']);
-            }
-
-            $this->articleService->deleteArticle($id);
-
-            $this->index();
-        } catch (InvalidArgumentException $iae) {
-            error_log($iae);
-        } catch (\mysqli_sql_exception $msqle) {
-            error_log($msqle);
-        } catch (\PDOException $e) {
-            die('Database connection failed: ' . $e->getMessage());
-        } catch (\Exception $e) {
-            die('Unknown exception occurred: ' . $e->getMessage());
-        }
+        // use ths service to save the data
+        $this->articleService->createArticle($data);
     }
 }

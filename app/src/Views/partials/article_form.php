@@ -1,49 +1,49 @@
-<?php
-
-use App\Models\ArticleModel;
-
-/** @var ArticleModel|null $article */
-
-$isUpdate = isset($article) && $article !== null;
-$formAction = $isUpdate ? "/articles/{$article->id}" : "/articles";
-?>
-
-<article class="card w-75 mx-auto">
-    <h2> <?= $isUpdate ? 'Update Article' : 'Create Article' ?></h2>
-
-    <form method="POST" action="<?= htmlspecialchars($formAction) ?>" class="needs-validation mb-4">
-        <input type="hidden" id="id" name="id" value="<?= $isUpdate ? htmlspecialchars($article->id) : '' ?>" />
-
-        <div class="row">
-            <div class="col mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="title"
-                    value="<?= $isUpdate ? htmlspecialchars($article->title) : '' ?>" required>
-                <div class="invalid-feedback">
-                    Please provide a title.
-                </div>
-            </div>
-
-            <div class="col mb-3">
-                <label for="author" class="form-label">Author</label>
-                <input type="text" class="form-control" id="author" name="author"
-                    value="<?= $isUpdate ? htmlspecialchars($article->author) : '' ?>" required>
-                <div class="invalid-feedback">
-                    Please provide an author.
-                </div>
-            </div>
+<form id="article-form" class="mt-4">
+    <div class="row">
+        <div class="col-md-8 mb-3">
+            <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="title" name="title" required placeholder="Enter article title">
         </div>
 
-        <div class="mb-3">
-            <label for="content" class="form-label">Content</label>
-            <textarea type="textarea" class="form-control" id="content" name="content" rows="16" required><?= $isUpdate ? htmlspecialchars($article->content) : '' ?></textarea>
-            <div class="invalid-feedback">
-                Please provide content.
-            </div>
+        <div class="col-md-4 mb-3">
+            <label for="category" class="form-label">Category <span class="text-danger">*</span></label>
+            <select class="form-select" id="category" name="category" required>
+                <option value="">Select a category</option>
+                <option value="Environment">Environment</option>
+                <option value="Technology">Technology</option>
+                <option value="Health">Health</option>
+                <option value="Finance">Finance</option>
+                <option value="History">History</option>
+                <option value="Gaming">Gaming</option>
+                <option value="Automotive">Automotive</option>
+                <option value="Travel">Travel</option>
+                <option value="Science">Science</option>
+                <option value="Business">Business</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="author" class="form-label">Author <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="author" name="author" required placeholder="Enter author name">
         </div>
 
-        <div class="row">
-            <button type="submit" class="btn btn-primary mt-3 align-self-end">Submit</button>
+        <div class="col-md-6 mb-3">
+            <label for="published" class="form-label">Published Date <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" id="published" name="published" required>
         </div>
-    </form>
-</article>
+    </div>
+
+    <div class="mb-3">
+        <label for="content" class="form-label">Content <span class="text-danger">*</span></label>
+        <textarea class="form-control" id="content" name="content" rows="8" required
+            placeholder="Enter article content"></textarea>
+        <div class="form-text">Write the full article content here.</div>
+    </div>
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Create Article</button>
+        <button type="reset" class="btn btn-outline-secondary">Reset Form</button>
+    </div>
+</form>
